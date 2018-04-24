@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,21 @@ public class MyController {
 	@RequestMapping("/applicantList")
 	public String applicantList(Model model) {
 		List<ApplicantModel> list = applicantDao.listApplicantModels();
-		model.addAttribute("applicantInfos", list);
+		
+		// doc sur les streams : https://openclassrooms.com/courses/apprenez-a-programmer-en-java/manipulez-vos-donnees-avec-les-streams
+		
+		//List<String> strings = Arrays.asList("girafe", "chameau", "chat", "poisson", "cachalot");
+		//strings.stream().filter(x->x.contains("cha")).map(x->x.substring(0,1).toUpperCase()+x.substring(1)).sorted().forEach(System.out::println);
+		//list.stream().map(x->x.getName().substring(0, 1).toUpperCase()+x.getName().substring(1)).sorted().forEach(System.out::println);
+		List<ApplicantModel> sortedList = list.stream().sorted(new java.util.Comparator<ApplicantModel>() {
+			public int compare(ApplicantModel m1, ApplicantModel m2)
+			{
+				String initial1 = m1.getName().toUpperCase();
+				String initial2 = m2.getName().toUpperCase();
+				return initial1.compareTo(initial2);
+			}
+		}).collect(Collectors.toList());
+		model.addAttribute("applicantInfos", sortedList);
 		return "applicantList";
 	}
 
