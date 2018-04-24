@@ -44,6 +44,17 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 		 Query query = session.createQuery(sql);
 		 return query.list();
 	}
+	
+	public List<ApplicantModel> listApplicantModelByPosition(String position) {
+		 String sql = "Select new " + ApplicantModel.class.getName()//
+				 + "(a.id, a.name, a.email, a.gender, a.position, a.skills) "//
+				 + " from " + Applicant.class.getName() + " a ";
+		 Session session = sessionFactory.getCurrentSession();
+		 sql += " where position='"+position+"'";
+		 Query query = session.createQuery(sql);
+		 
+		 return query.list();
+	}
 
 	public void saveApplicant(ApplicantModel applicantModel) {
 		String id = applicantModel.getId();

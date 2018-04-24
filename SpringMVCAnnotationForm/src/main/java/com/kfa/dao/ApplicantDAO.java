@@ -11,6 +11,8 @@ public interface ApplicantDAO {
 	public Applicant findApplicant(String id);
 	 
     public List<ApplicantModel> listApplicantModels();
+    
+    public List<ApplicantModel> listApplicantModelByPosition(String position);
  
     public void saveApplicant(ApplicantModel applicantModel);
  

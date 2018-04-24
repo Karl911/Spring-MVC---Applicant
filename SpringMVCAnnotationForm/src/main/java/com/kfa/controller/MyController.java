@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,10 +45,24 @@ public class MyController {
 	}
 	
 	@RequestMapping("/applicantList")
-	   public String applicantList(Model model) {
-	       List<ApplicantModel> list = applicantDao.listApplicantModels();	
-	       model.addAttribute("applicantInfos", list);
-	       return "applicantList";
+	public String applicantList(Model model) {
+		List<ApplicantModel> list = applicantDao.listApplicantModels();
+		model.addAttribute("applicantInfos", list);
+		return "applicantList";
+	}
+
+	@RequestMapping(value="applicantList/{position}", method = RequestMethod.GET)
+	public String applicantList(Model model, @PathVariable("position") String pPosition) {
+		List<ApplicantModel> list = null;
+		if (pPosition == null)
+		{
+			list = applicantDao.listApplicantModels();
+		}
+		else {
+			list = applicantDao.listApplicantModelByPosition(pPosition);
+		}
+		model.addAttribute("applicantInfos", list);
+		return "applicantList";
 	   }
 	 private Map<String, String> dataForPositions() {
 	       Map<String, String> positionMap = new LinkedHashMap<String, String>();
