@@ -16,7 +16,7 @@ public class ApplicantModel {
     	
     }
     
- // Do not change this constructor,
+    // Do not change this constructor,
     // it is used in the Hibernate Query
     public ApplicantModel(String id, String name, String email, String gender, String position, String skillsString) {
         this.id = id;
