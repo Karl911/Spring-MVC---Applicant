@@ -1,20 +1,14 @@
 package com.kfa.dao.impl;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kfa.dao.BankAccountDAO;
-import com.kfa.entity.Applicant;
 import com.kfa.entity.BankAccount;
-import com.kfa.model.ApplicantModel;
 import com.kfa.model.BankAccountModel;
 
 public class BankAccountImpl implements BankAccountDAO {
@@ -131,5 +125,47 @@ public class BankAccountImpl implements BankAccountDAO {
 		BankAccount bankAccount = findBankAccount(id);
 		session.delete(bankAccount);
 	}
+
+	@Override
+	public void transfertMoney(double amount, Long sourceAccountId, Long targetAccountId) {
+	
+		// TODO : débiter du montant "amount" le compte sourceAccountId
+		
+		// TODO : créditer du montant "amount" le compte targetAccountId
+		addAmount(sourceAccountId, -amount);
+		addAmount(targetAccountId, amount);
+		
+	}
+	private void addAmount(Long accountId, double amount)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		
+		//BankAccountModel bankAccountModel = findBankAccountModel(accountId);
+		
+		BankAccount bankAccount = findBankAccount(accountId);
+		
+		double balance = bankAccount.getBalance();
+		balance += amount;
+		bankAccount.setBalance(balance);
+		//session.save(bankAccountModel);
+		session.persist(bankAccount);
+	}
+	
+	 // MANDATORY: Transaction must be created before.
+	/*
+    @Transactional(propagation = Propagation.MANDATORY )
+    public void addAmount(Long id, double amount) throws BankTransactionException {
+        BankAccount account = this.findById(id);
+        if (account == null) {
+            throw new BankTransactionException("Account not found " + id);
+        }
+        double newBalance = account.getBalance() + amount;
+        if (account.getBalance() + amount < 0) {
+            throw new BankTransactionException(
+                    "The money in the account '" + id + "' is not enough (" + account.getBalance() + ")");
+        }
+        account.setBalance(newBalance);
+    }
+    */
 
 }

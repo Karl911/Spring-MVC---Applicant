@@ -12,5 +12,6 @@ public interface BankAccountDAO {
 		public List<BankAccountModel> listBankAccountsModels();
 		public void saveAccount(BankAccountModel bankAccountModel);
 		public void delete(Long id);
+		public void transfertMoney(double amount, Long sourceAccountId, Long targetAccountId);
 
 }

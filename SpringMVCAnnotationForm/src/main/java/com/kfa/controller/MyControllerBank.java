@@ -1,6 +1,8 @@
 package com.kfa.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kfa.dao.BankAccountDAO;
+import com.kfa.form.SendMoneyForm;
 import com.kfa.model.BankAccountModel;
 import com.kfa.validator.BankValidator;
 
@@ -105,6 +108,60 @@ public class MyControllerBank {
 	       }
 	       return "redirect:/bankAccountList";
 	   }
+	   
+		@RequestMapping("/transfertMoney")
+		public String transfertMoney(Model model)
+		{
+			List<BankAccountModel> list = bankAccountDao.listBankAccountsModels();
+			model.addAttribute("bankAccountInfos", list);
+			model.addAttribute("formTitle", "Transfert Money");
+		   // model.addAttribute("bankAccountForm", list);
+			//
+			
+			Map<Long, String> accountMap = new LinkedHashMap<Long, String>();
+			for (BankAccountModel bam : list)
+			{
+				accountMap.put(bam.getId(), bam.getFullName());
+			}
+			model.addAttribute("accountMap", accountMap);
+			
+			SendMoneyForm form = new SendMoneyForm();
+		    
+	        model.addAttribute("sendMoneyForm", form);
+					
+			//return "transfertMoney";
+			return "sendMoneyPage";
+		}
+		
+		  // Save or update Applicant
+		   // 1. @ModelAttribute bind form value
+		   // 2. @Validated form validator
+		   // 3. RedirectAttributes for flash value
+		   @RequestMapping(value = "/saveTransfertMoney", method = RequestMethod.POST)
+		   public String processTransfertMoney(Model model,  SendMoneyForm sendMoneyForm, final RedirectAttributes redirectAttributes)
+		           //@ModelAttribute("SendMoneyForm") @Validated BankAccountModel bankAccountInfo, //
+		           //BindingResult result), //
+		   {
+		    /*
+		       if (result.hasErrors()) {
+		    	   return this.formBankAccount(model, bankAccountInfo);
+		       }
+		       */
+		       try {
+		    	   this.bankAccountDao.transfertMoney(sendMoneyForm.getAmount(), sendMoneyForm.getFromAccountId(), sendMoneyForm.getToAccountId());
+		       }
+		       catch (Exception e){
+		    	    model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		            return "/sendMoneyPage";
+		       }
+		       		 
+		       // Important!!: Need @EnableWebMvc
+		       // Add message to flash scope
+		       redirectAttributes.addFlashAttribute("message", "Transfert Money Successful");
+		 
+		       return "redirect:/bankAccountList";
+		   }
+
 	 
 	   // Set a form validator
 	   @InitBinder
@@ -131,7 +188,6 @@ public class MyControllerBank {
 	           BindingResult result, //
 	           final RedirectAttributes redirectAttributes) {
 	 
-	    
 	       if (result.hasErrors()) {
 	           return this.formBankAccount(model, bankAccountInfo);
 	       }
