@@ -13,5 +13,6 @@ public interface BankAccountDAO {
 		public void saveAccount(BankAccountModel bankAccountModel);
 		public void delete(Long id);
 		public void transfertMoney(double amount, Long sourceAccountId, Long targetAccountId);
+		public void generateAccounts(int nbAccounts);
 
 }

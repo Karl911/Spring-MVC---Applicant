@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kfa.dao.BankAccountDAO;
+import com.kfa.form.GenerateAccountForm;
 import com.kfa.form.SendMoneyForm;
 import com.kfa.model.BankAccountModel;
 import com.kfa.validator.BankValidator;
@@ -160,6 +161,21 @@ public class MyControllerBank {
 		       redirectAttributes.addFlashAttribute("message", "Transfert Money Successful");
 		 
 		       return "redirect:/bankAccountList";
+		   }
+		   
+		   @RequestMapping("/generateNextAccount")
+		   public String showGenerateNextAccount(Model model)
+		   {
+				GenerateAccountForm form = new GenerateAccountForm(10);
+		        model.addAttribute("generateAccountForm", form);
+		        
+		        return "generateAccounts";
+		   }
+		   @RequestMapping("/processGenerateNextAccount")
+		   public String processGenerateAccounts(Model model, GenerateAccountForm generateAccountForm)
+		   {
+			   this.bankAccountDao.generateAccounts(generateAccountForm.getNbAccounts());
+			   return "redirect:/bankAccountList";
 		   }
 
 	 

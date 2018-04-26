@@ -150,6 +150,19 @@ public class BankAccountImpl implements BankAccountDAO {
 		//session.save(bankAccountModel);
 		session.persist(bankAccount);
 	}
+
+	@Override
+	public void generateAccounts(int nbAccounts) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		for (int i=0;i<nbAccounts;i++)
+		{
+			BankAccount bankAccount = new BankAccount();
+			bankAccount.setFullName("A_"+i);
+			session.persist(bankAccount);
+		}
+		
+	}
 	
 	 // MANDATORY: Transaction must be created before.
 	/*
