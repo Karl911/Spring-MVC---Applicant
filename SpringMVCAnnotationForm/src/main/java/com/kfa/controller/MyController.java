@@ -39,12 +39,13 @@ public class MyController {
 	@Autowired
 	private ApplicantValidator applicantValidator;
 	
+	/*
 	@RequestMapping(value="/")
 	public String homePage(Model model)
 	{
 		return applicantList(model);
 	}
-	
+	*/
 	@RequestMapping("/applicantList")
 	public String applicantList(Model model) {
 		List<ApplicantModel> list = applicantDao.listApplicantModels();
@@ -96,10 +97,9 @@ public class MyController {
 	   }
 	 
 	   private String formApplicant(Model model, ApplicantModel applicantInfo) {
+		   
 	       model.addAttribute("applicantForm", applicantInfo);
-	 
 	       Map<String, String> positionMap = this.dataForPositions();
-	 
 	       model.addAttribute("positionMap", positionMap);
 	 
 	       List<String> list = dataForSkills();
@@ -107,7 +107,8 @@ public class MyController {
 	 
 	       if (applicantInfo.getId() == null) {
 	           model.addAttribute("formTitle", "Create Applicant");
-	       } else {
+	       } 
+	       else {
 	           model.addAttribute("formTitle", "Edit Applicant");
 	       }
 	 

@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.kfa.dao.ApplicantDAO;
+import com.kfa.dao.BankAccountDAO;
 import com.kfa.dao.impl.ApplicantDAOImpl;
+import com.kfa.dao.impl.BankAccountImpl;
 
 @Configuration
 @ComponentScan("com.kfa.*")
@@ -92,5 +94,10 @@ public class ApplicationContextConfig {
 	 @Bean(name = "applicantDAO")
 	 public ApplicantDAO getApplicantDAO() {
 	     return new ApplicantDAOImpl();
+	 }
+	 
+	 @Bean(name = "bankAccountDAO")
+	 public BankAccountDAO getBankAccountDAO() {
+	     return new BankAccountImpl();
 	 }
 }
