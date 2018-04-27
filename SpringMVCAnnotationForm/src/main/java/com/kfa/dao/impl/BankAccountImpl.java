@@ -16,7 +16,6 @@ public class BankAccountImpl implements BankAccountDAO {
 	@Autowired
     private SessionFactory sessionFactory;
 	
-	@Override
 	public BankAccount findBankAccount(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -38,7 +37,6 @@ public class BankAccountImpl implements BankAccountDAO {
 	}
 	*/
 
-	@Override
 	public BankAccountModel findBankAccountModel(Long id) {
 		
 		BankAccountModel bankAccountModel = null;
@@ -54,7 +52,6 @@ public class BankAccountImpl implements BankAccountDAO {
 		return bankAccountModel;
 	}
 
-	@Override
 	public List<BankAccountModel> listBankAccountsModels() {
 		
 		String sql = "Select new "+BankAccountModel.class.getName()+
@@ -91,7 +88,6 @@ public class BankAccountImpl implements BankAccountDAO {
 		 */
 	}
 
-	@Override
 	public void saveAccount(BankAccountModel bankAccountModel) {
 		
 		Long id = bankAccountModel.getId();
@@ -119,14 +115,12 @@ public class BankAccountImpl implements BankAccountDAO {
 		}
 	}
 
-	@Override
 	public void delete(Long id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		BankAccount bankAccount = findBankAccount(id);
 		session.delete(bankAccount);
 	}
 
-	@Override
 	public void transfertMoney(double amount, Long sourceAccountId, Long targetAccountId) {
 	
 		// TODO : débiter du montant "amount" le compte sourceAccountId
@@ -151,7 +145,6 @@ public class BankAccountImpl implements BankAccountDAO {
 		session.persist(bankAccount);
 	}
 
-	@Override
 	public void generateAccounts(int nbAccounts) {
 		
 		Session session = sessionFactory.getCurrentSession();

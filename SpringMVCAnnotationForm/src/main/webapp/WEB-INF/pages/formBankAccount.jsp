@@ -17,36 +17,55 @@
    font-style: italic;
 }
 </style>
+
+<spring:url value="/resources/core/css/hello.css" var="coreCss" />
+<spring:url value="/resources/core/css/bootstrap.min.css"
+	var="bootstrapCss" />
+<link href="${bootstrapCss}" rel="stylesheet" />
+<link href="${coreCss}" rel="stylesheet" />
+
 </head>
+
 <body>
  
-   <h3>${formTitle}</h3>
+  
+   <div class="form-group">
+			<div class="col-sm-offset-1">
+				 <h3>${formTitle}</h3>
+			</div>
+		</div>
  
-   <form:form action="saveBankAccount" method="POST"
+   <form:form class="form-horizontal"  action="saveBankAccount" method="POST"
        modelAttribute="bankAccountForm">
  
        <form:hidden path="id" />
  
-       <table>
-           <tr>
-               <td>Full Name</td>
-               <td><form:input path="fullName" /></td>
-               <td><form:errors path="fullName"
-                       class="error-message" /></td>      
-           </tr>
-           <tr>
-               <td>Balance</td>
-               <td><form:input path="balance" /></td>
-               <td><form:errors path="balance" class="error-message" /></td>
-           </tr>
-           <tr>
-               <td>&nbsp;</td>
-               <td><input type="submit" value="Submit" />
-                  <a href="${pageContext.request.contextPath}/bankAccountList">Cancel</a>
-               </td>
-               <td>&nbsp;</td>
-           </tr>
-       </table>
+ 		<spring:bind path="fullName">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Full Name</label>
+				<div class="col-sm-1">
+					<form:input path="fullName" type="text" class="form-control " id="fullName" placeholder="fullName" />
+					<form:errors path="fullName" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		 <spring:bind path="balance">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Solde</label>
+				<div class="col-sm-1">
+					<form:input path="balance" type="text" class="form-control " id="balance" placeholder="balance" />
+					<form:errors path="balance" class="control-label" />
+				</div>
+			</div>
+			
+		</spring:bind>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-1">
+				<button type="submit" class="btn-lg btn-primary pull-left">Submit</button>
+			</div>
+		</div>
+		
    </form:form>
  
 </body>

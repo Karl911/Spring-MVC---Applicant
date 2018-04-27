@@ -24,7 +24,15 @@ table  td {
 	margin-top: 30px;
 }
 </style>
+
+<spring:url value="/resources/core/css/hello.css" var="coreCss" />
+<spring:url value="/resources/core/css/bootstrap.min.css"
+	var="bootstrapCss" />
+<link href="${bootstrapCss}" rel="stylesheet" />
+<link href="${coreCss}" rel="stylesheet" />
+
 </head>
+
 <body>
 
 	<h2>Bank Account List</h2>
@@ -37,22 +45,28 @@ table  td {
 	<br />
 
 
-	<table border="1">
-		<tr>
-			<th>Id</th>
-			<th>Full name</th>
-			<th>Balance</th>
-			<th>Edit</th>
-			<th>Delete</th>
-		</tr>
+			<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#ID</th>
+					<th>Full name</th>
+					<th>Balance</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
 		<c:forEach items="${bankAccountInfos}" var="info">
+		
+		 <spring:url value="editBankAccount?id=${info.id}" var="editUrl" />
+		 <spring:url value="deleteBankAccount?id=${info.id}" var="deleteUrl" />		 
 
 			<tr>
 				<td>${info.id}</td>
 				<td>${info.fullName}</td>
 				<td>${info.balance}</td>
-				<td><a href="deleteBankAccount?id=${info.id}">Delete</a></td>
-				<td><a href="editBankAccount?id=${info.id}">Edit</a></td>
+				<td><button class="btn btn-info"  onclick="location.href='${editUrl}'">Edit</button></td>
+				<td><button class="btn btn-info"  onclick="location.href='${deleteUrl}'">Delete</button></td>			
+				
 			</tr>
 
 		</c:forEach>
