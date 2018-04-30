@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Create Bank Account</title>
+<title>Create / Edit Bank Account</title>
 <style>
 .error-message {
    color: red;

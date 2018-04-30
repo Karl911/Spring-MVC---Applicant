@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Demo</title>
+<style>
+table {
+	margin-top: 10px;
+	border: solid black 1px;
+}
+
+table  td {
+	padding: 5px;
+}
+
+.message {
+	font-size: 90%;
+	color: blue;
+	font-style: italic;
+	margin-top: 30px;
+}
+</style>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+</head>
+<body>
+	
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<button id="opener">open the dialog</button>
+	<div id="dialog1" title="Confirmation" hidden="hidden">Confirmation de suppression</div>
+	<script>
+	
+	$(function () {
+		  $( "#dialog1" ).dialog({
+		    autoOpen: false,
+		     height: 150,
+             width: 250,
+             modal: true
+		  });
+		  
+		  $("#opener").click(function() {
+		    $("#dialog1").dialog('open');
+		  });
+		  
+		  //$(".ui-dialog-titlebar").hide();
+		});
+
+</script>
+	​
+</body>
+</html>

@@ -5,9 +5,58 @@
     <title>Demo</title>
 </head>
 <body>
-	<h2>HELLO</h2>
-    <a href="http://jquery.com/">jQuery</a>
-    </body>
-	<script   src="https://code.jquery.com/jquery-3.3.1.js"   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="   crossorigin="anonymous"></script>
-	<script   src="mon-script.js""></script>
+	<h2>Test jQuery</h2>
+	<button id="item">Hello, click me.</button>
+	<p>I changed the boolean parsing in onclick()</p>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+ 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+ 	
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+	<script>
+	
+	function confirmation(question) {
+	    var defer = $.Deferred();
+	    $('<div></div>')
+	        .html(question)
+	        .dialog({
+	            autoOpen: true,
+	            modal: true,
+			    height: 150,
+	            width: 250,
+	            title: 'Confirmation',
+	            buttons: {
+	                "Yes": function () {
+	                    defer.resolve("true");//this text 'true' can be anything. But for this usage, it should be true or false.
+	                    $(this).dialog("close");
+	                },
+	                "Cancel": function () {
+	                    defer.resolve("false");//this text 'false' can be anything. But for this usage, it should be true or false.
+	                    $(this).dialog("close");
+	                }
+	            },
+	            close: function () {
+	                //$(this).remove();
+	                $(this).dialog('destroy').remove()
+	            }
+	        });
+	    return defer.promise();
+	};
+
+	function onclick(){
+	    var question = "Do you really want to delete this account ?";
+	    confirmation(question).then(function (answer) {
+	        console.log(answer);
+	        var ansbool = (String(answer) == "true");
+	        if(ansbool){
+	            alert("this is obviously " + ansbool);//TRUE
+	        } else {
+	            alert("and then there is " + ansbool);//FALSE
+	        }
+	    });
+	}
+	
+	$("#item").on('click', onclick);
+
+	</script>
+</body>
 </html>
